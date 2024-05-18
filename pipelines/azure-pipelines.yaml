@@ -1,0 +1,25 @@
+trigger:
+  branches: 
+    include: 
+      - master
+
+pool: 
+  vmImage: 'ubuntu-latest'
+
+jobs: 
+  - job: TerraformDeployment
+    steps: 
+      - task: UsePythonVersion@0
+        inputs: 
+          versionSpec: '3.x'
+          addToPath: true 
+
+      - task: TerraformInstaller@0
+        inputs: 
+          terraformVersion: '0.14.7'
+
+      - script: |
+          terraform init 
+          terraform plan 
+          terraform apply 
+        displayName: 'Run Terraform Commands'
